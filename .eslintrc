@@ -1,0 +1,16 @@
+{
+  "extends": "eslint-config-airbnb",
+  "env": {
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "expect": true
+  },
+  "rules": {
+    'indent': [2, 4, { 'SwitchCase': 1, 'VariableDeclarator': 1 }],
+    "padded-blocks": 0,
+    "no-use-before-define": [2, "nofunc"],
+    "no-unused-expressions": 0
+  }
+}
