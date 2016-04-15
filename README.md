@@ -21,7 +21,10 @@ var ReduxAsyncQueue = window.ReduxAsyncQueue.default
 
 ## What is it?
 
-ReduxAsyncQueue [middleware](https://github.com/reactjs/redux/blob/master/docs/advanced/Middleware.md) makes queueing redux actions painless. This allows you to fire multiple actions simultaneously and have them execute asynchronously in order.
+ReduxAsyncQueue [middleware](https://github.com/reactjs/redux/blob/master/docs/advanced/Middleware.md) makes queueing redux actions painless. This allows you to fire multiple actions simultaneously and have them execute asynchronously in order. 
+
+The middleware will search for any action that has the `queue` property. It will then add the `callback` function to the corresponding queue. The `queue` key specifies to which queue this callback belongs. You may have several different queues for any given application.
+
 
 For example, let's say we are making burgers (because they're delicious!). We can only make one burger at a time, but our friends keep coming up and saying they want one. You have 10 requests, but can only make one at a time. Here is how we'd write that delicious example out with the ReduxAsyncQueue middleware.
 
@@ -35,23 +38,22 @@ function makeBurger(ingredients) {
   };
 }
 
-function queueMakeBurger(style) {
+function queueMakeBurger(burgerStyle) {
   return {
     queue: MAKE_BURGER,
     callback: (next, dispatch, getState) => {
-      getIncredients(style).then(incredients => {
+      getIngredients(burgerStyle).then(ingredients => {
         dispatch(makeBurger(ingredients));
         next();
-      }, 1000);
+      });
     }
   }
 }
 ```
 
-You'll notice the `next()` call within `callback`. That is the key to letting ReduxAsyncQueue know that you are ready to start making the next burger. The `queue` key specifies to which queue this callback belongs. You may have several different queues for any given application.
+You'll notice the `next()` call within `callback`. That is the key to letting ReduxAsyncQueue know that you are ready to start making the next burger. If you do not call `next()` then the queue will not work.
 
 ## Installation
-
 ```
 npm install --save redux-async-queue
 ```
