@@ -55,8 +55,6 @@ function queueMakeBurger(burgerStyle) {
 
 // Call the queue from your container / smart component
 dispatch(queueMakeBurger(burgerStyle));
-
-
 ```
 
 You'll notice the `next()` call within `callback`. That is the key to letting ReduxAsyncQueue know that you are ready to start making the next burger. If you do not call `next()` then the queue will not work.
