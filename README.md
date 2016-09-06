@@ -29,6 +29,9 @@ The middleware will search for any action that has the `queue` property. It will
 For example, let's say we are making burgers (because they're delicious!). We can only make one burger at a time, but our friends keep coming up and saying they want one. You have 10 requests, but can only make one at a time. Here is how we'd write that delicious example out with the ReduxAsyncQueue middleware.
 
 ```js
+// This is the name of the queue.  This does not need to match the action 'type' in 'makeBurger()'
+// You could for example call this `MAKE_FOOD` if you were also going to be cooking up some
+// sweet potato fries and wanted them in the same queue even though they are different actions.
 const MAKE_BURGER = 'MAKE_BURGER';
 
 function makeBurger(ingredients) {
@@ -49,6 +52,9 @@ function queueMakeBurger(burgerStyle) {
     }
   }
 }
+
+// Call the queue from your container / smart component
+dispatch(queueMakeBurger(burgerStyle));
 ```
 
 You'll notice the `next()` call within `callback`. That is the key to letting ReduxAsyncQueue know that you are ready to start making the next burger. If you do not call `next()` then the queue will not work.
